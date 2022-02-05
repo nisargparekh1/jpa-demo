@@ -1,0 +1,113 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Gauarv's Learning Api"
+basePath: "/api"
+tags:
+  - name: "course"
+    description: 'Course Api'
+schemes:
+  - "http"
+paths:
+  /course:
+    post:
+      tags:
+        - "course"
+      summary: "this will add new course to Repo"
+      description: "This will add new course to Repo"
+      operationId: "addCourse"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CourseDto"
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Course Created"
+          schema:
+            $ref: "#/definitions/CourseDto"
+    get:
+      tags:
+        - "course"
+      produces:
+        - "application/json"
+        - "application/xml"
+      parameters:
+        - in: query
+          name: coursename
+          type: string
+      responses:
+        "200":
+          description: "Course Created"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CourseDto"
+
+
+  /course/{courseId}:
+    get:
+      tags:
+        - "course"
+      summary: "this will add new course to by ID"
+      operationId: 'getCourseById'
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/xml"
+        - "application/json"
+      parameters:
+        - in: path
+          name: "courseId"
+          required: true
+          type: "integer"
+          format: int64
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Course Created"
+          schema:
+            $ref: "#/definitions/CourseDto"
+
+
+definitions:
+
+  CourseDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: 1
+        format: "int32"
+      name:
+        type: "string"
+        example: "Full Stack Java"
+      desc:
+        type: "string"
+        example: "Learn Full Stack Java Development"
+      price:
+        type: "integer"
+        format: "int64"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

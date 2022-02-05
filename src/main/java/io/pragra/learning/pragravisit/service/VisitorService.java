@@ -3,6 +3,7 @@ package io.pragra.learning.pragravisit.service;
 import io.pragra.learning.pragravisit.entity.PragraVisitor;
 import io.pragra.learning.pragravisit.exceptions.InvalidDataException;
 import io.pragra.learning.pragravisit.repo.VisitorRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 public class VisitorService {
     private VisitorRepo repo;
 
@@ -35,14 +37,18 @@ public class VisitorService {
         return repo.save(visitor);
     }
 
-    public Optional<PragraVisitor> getById(Integer id)  {
+    public PragraVisitor getById(Integer id)  {
+
+        log.debug("Searching Visitor for id {} ", id);
         validateId(id);
-        return repo.findById(id);
+
+        Optional<PragraVisitor> byId = repo.findById(id);
+        return byId.orElseThrow(()->new RuntimeException("No DataFound for id "+ id));
 
     }
 
     private void validateId(Integer id) {
-        if(id ==null ||  id < 0) {
+        if(id ==null ||  id <= 0) {
             throw  new InvalidDataException("ID pass is not valid");
         }
     }

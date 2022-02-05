@@ -2,6 +2,7 @@ package io.pragra.learning.pragravisit.controller.rest;
 import io.pragra.learning.pragravisit.entity.PragraVisitor;
 import io.pragra.learning.pragravisit.service.VisitorService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,10 +38,9 @@ public class VisitorController {
 
     @GetMapping(value = "/api/visitor/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public PragraVisitor getAllVisitor(@PathVariable("id") Integer id){
+    public ResponseEntity<?> getAllVisitor(@PathVariable("id") Integer id){
         System.out.println("Got id" + id);
-        Optional<PragraVisitor> byId = service.getById(id);
-        return byId.orElseThrow();
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping(value = "/api/visitor",
