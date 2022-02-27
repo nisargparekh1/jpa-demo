@@ -19,12 +19,6 @@ pipeline {
       }
     }
 
-    stage('Archive Artifact') {
-      steps {
-        archiveArtifacts 'target/*.jar'
-      }
-    }
-
     stage('Publish Result') {
       steps {
         junit '**/*.xml'
